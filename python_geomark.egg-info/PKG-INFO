@@ -1,0 +1,26 @@
+Metadata-Version: 1.1
+Name: python-geomark
+Version: 0.0.1
+Summary: Tools for manipulating Geomark datasets
+Home-page: https://github.com/greg-and-adam/
+Author: Adam Valair, Greg Sebastian
+Author-email: adam@bitspatial.com, gregseb@protonmail.com
+License: BSD2
+Description-Content-Type: UNKNOWN
+Description: # python-geomark
+Platform: UNKNOWN
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Practitioners
+Classifier: License :: OSI Approved :: BSD2
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: Utilities

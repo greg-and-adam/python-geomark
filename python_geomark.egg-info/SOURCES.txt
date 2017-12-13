@@ -1,0 +1,12 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+geomark/__init__.py
+geomark/geomark.py
+python_geomark.egg-info/PKG-INFO
+python_geomark.egg-info/SOURCES.txt
+python_geomark.egg-info/dependency_links.txt
+python_geomark.egg-info/top_level.txt
+tests/__init__.py
+tests/geomark_tests.py
