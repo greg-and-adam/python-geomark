@@ -43,7 +43,7 @@ TODO: Write history
 
 ## Credits
 
-- [Adam Valaire](https://github.com/spatialbits) (Primary Developer/Maintainer)
+- [Adam Valair](https://github.com/spatialbits) (Primary Developer/Maintainer)
 - [Greg Sebastian](https://github.com/gregseb) (Primary Developer/Maintainer)
 
 ## License
