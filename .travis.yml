@@ -29,4 +29,4 @@ script:
   - coverage run --source=geomark $(command -v tox)
 
 after_success:
-coveralls
+  coveralls
