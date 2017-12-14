@@ -10,9 +10,11 @@ setup.py
 tox.ini
 geomark/__init__.py
 geomark/geomark.py
+geomark/__pycache__/__init__.cpython-36.pyc
+geomark/__pycache__/geomark.cpython-36.pyc
 python_geomark.egg-info/PKG-INFO
 python_geomark.egg-info/SOURCES.txt
 python_geomark.egg-info/dependency_links.txt
 python_geomark.egg-info/top_level.txt
 tests/__init__.py
-tests/geomark_test.py
+tests/test_geomark.py
