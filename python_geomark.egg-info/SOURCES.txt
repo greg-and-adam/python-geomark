@@ -1,3 +1,4 @@
+.coveragerc
 .gitignore
 .travis.yml
 LICENSE
@@ -6,6 +7,7 @@ README.md
 __init__.py
 requirements.txt
 setup.py
+tox.ini
 geomark/__init__.py
 geomark/geomark.py
 python_geomark.egg-info/PKG-INFO
