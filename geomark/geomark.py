@@ -1,20 +1,20 @@
 import requests
-
-
-_base_url = "{protocol}://apps.gov.bc.ca/pub/geomark"
-_gm_id_base = _base_url + '/geomarks/{geomarkId}'
+from . import config as _config
 
 
 class Geomark:
 
-    def __init__(self, geomarkId=None, geomarkUrl=None, protocol='https'):
+    def __init__(self, geomarkId=None, geomarkUrl=None, protocol='https', config=_config):
+        self.config = config
         self.protocol = protocol
+
+        self.logger = self.config.LOGGER
 
         if not geomarkId and not geomarkUrl:
             raise SyntaxError("One of geomarkId or geomarkUrl are required kwargs")
 
         if geomarkId:
-            self.geomarkUrl = _gm_id_base.format(
+            self.geomarkUrl = self.config.GEOMARK_ID_BASE_URL.format(
                 protocol=self.protocol,
                 geomarkId=geomarkId,
             )
@@ -64,10 +64,10 @@ class Geomark:
         return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
 
     def copy(self, **kwargs):
-        copy_url = _base_url + '/geomarks/copy'
+        copy_url = self.config.GEOMARK_BASE_URL + '/geomarks/copy'
         raise NotImplementedError("copy is not implemented")
 
     @classmethod
-    def create(cls, **kwargs):
-        create_url = _base_url + '/geomarks/new'
+    def create(cls, config=_config, **kwargs):
+        create_url = config.GEOMARK_BASE_URL + '/geomarks/new'
         raise NotImplementedError("create is not implemented")
