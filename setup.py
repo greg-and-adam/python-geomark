@@ -1,6 +1,21 @@
 import os
 from setuptools import find_packages, setup
 
+
+def get_install_requires():
+    """
+    parse requirements.txt, ignore links, exclude comments
+    """
+    requirements = []
+    for line in open('requirements.txt').readlines():
+        # skip to next iteration if comment or empty line
+        if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
+            continue
+        # add line to requirements
+        requirements.append(line)
+    return requirements
+
+
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
@@ -18,6 +33,7 @@ setup(
     url='https://github.com/greg-and-adam/',
     author='Adam Valair, Greg Sebastian',
     author_email='adam@bitspatial.com, gregseb@protonmail.com',
+    install_requires=get_install_requires(),
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
