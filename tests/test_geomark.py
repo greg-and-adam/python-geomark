@@ -3,38 +3,35 @@ import json
 from geomark.geomark import Geomark
 
 
-@pytest.fixture(scope='class')
-def geomarkId(request):
-    request.cls.geomarkId = 'gm-abcdefghijklmnopqrstuvwxyz0000bc'
-    yield
+def test_bbox(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.boundingBox()
 
 
-@pytest.mark.usefixtures('geomarkId')
-class TestGeoMark(object):
+def test_feature(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.feature()
 
-    def test_bbox(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.boundingBox()
 
-    def test_feature(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.feature()
+def test_info(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.info()
 
-    def test_info(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.info()
 
-    def test_parts(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.boundingBox()
+def test_parts(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.boundingBox()
 
-    def test_point(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.point()
 
-    def test_copy(self):
-        gm = Geomark(geomarkId=self.geomarkId)
-        assert gm.copy()
+def test_point(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.point()
 
-    def test_create(self):
-        assert Geomark.create()
+
+# def test_copy(geomarkId):
+#     gm = Geomark(geomarkId=geomarkId)
+#     assert gm.copy()
+
+
+# def test_create(geomarkId):
+#     assert Geomark.create()
