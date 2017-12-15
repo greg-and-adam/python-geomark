@@ -31,7 +31,7 @@ class Geomark:
         if request.ok:
             return request.content
         else:
-            raise ValueError("A non-ok status code ({}) was returned from the server.".format(request.status_code))
+            request.raise_for_status()
 
     def boundingBox(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '/boundingBox.{fileFormatExtension}'.format(
