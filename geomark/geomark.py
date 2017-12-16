@@ -23,6 +23,18 @@ class Geomark:
             self.geomarkId = self._parse_geomark_url()
             self.geomarkUrl = geomarkUrl
 
+        self.logger.info('Initiated Geomark object with the following parameters: '
+                         'geomarkId={geomarkId}; '
+                         'geomarkUrl={geomarkUrl}; '
+                         'protocol={protocol}; '
+                         'custom_config: {custom_config}'.format(
+
+            geomarkId=geomarkId,
+            geomarkUrl=geomarkUrl,
+            protocol=protocol,
+            custom_config='YES' if config is _config else 'NO'
+        ))
+
     def _parse_geomark_url(self, url):
         raise NotImplementedError("_parse_geomark_url() method has not yet been implemented")
         # return url
