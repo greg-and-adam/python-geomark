@@ -115,7 +115,7 @@ tests manually / without tox.
 
 ## History
 
-TODO: Write history
+Recent changes can be viewed in the [CHANGELOG.md] file.
 
 ## Credits
 
@@ -133,4 +133,5 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE] file
 [supported file formats]: https://apps.gov.bc.ca/pub/geomark/docs/fileFormats.html
 
 [tox.ini]: tox.ini
+[CHANGELOG.md]: CHANGELOG.md
 [LICENSE]: LICENSE
