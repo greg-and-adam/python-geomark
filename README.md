@@ -4,11 +4,87 @@ A small python library that provides implementations of the BC Governments [Geom
 
 ## Installation
 
-TODO: Describe the installation process
+### Option 1 - Clone this repository and install manually
+
+1. We will do our best to keep the master branch of this repository stable.  However you could also checkout the tag
+corresponding to the release you would like...
+
+    `git clone https://github.com/greg-and-adam/python-geomark.git`
+
+1. the cd into the directory where this repository was cloned
+
+    `cd /path/to/python-geomark`
+    
+1. Install using setup.py
+
+    `python setup.py install`
+    
+
+1. **Or...** Follow step 1 above then install using pip
+    
+    `pip install /path/to/cloned/python-geomark`
+
+
+#### TODO List more installation methods here as they become supported...
 
 ## Usage
 
-TODO: Write usage instructions
+A Geomark object can be instantiated with either a Geomark ID or a full Geomark URL.  
+
+We recommend using the Geomark ID.
+
+```python
+
+from geomark import Geomark
+
+gm = Geomark('gm-abcdefghijklmnopqrstuv0bcislands')
+# or...
+gm = Geomark('https://apps.gov.bc.ca/pub/geomark/geomarks/gm-abcdefghijklmnopqrstuv0bcislands')
+```
+
+This library supports all of the basic read functions from the Geomark API.  
+
+Reponse results are returned as a bytes string.  It can be parsed using the appropriate library.  
+
+The default format is 'json' which will return a json parsable byte string.  When using the JSON format any geometries 
+will be formatted as EWKT.  
+
+Any of the [supported file formats] may be requested.
+
+```python
+
+import json
+from geomark import Geomark
+
+gm = Geomark('gm-abcdefghijklmnopqrstuv0bcislands')
+
+info = json.loads(gm.info())
+parts = json.loads(gm.parts('geojson'))  # geojson is also supported.
+
+```
+
+Data can also be requested in any of the [supported coordinate systems].
+
+```python
+import json
+from geomark import Geomark
+
+gm = Geomark('gm-abcdefghijklmnopqrstuv0bcislands')
+parts_bcalbers = json.loads(gm.parts('geojson', 3005))
+```
+
+If you get data in a format you wish to write to a file you may do so by simply opening a file location as writable in 
+binary mode.  (wb)
+
+```python
+from geomark import Geomark
+
+gm = Geomark('gm-abcdefghijklmnopqrstuv0bcislands')
+feature_file = gm.feature('shpz')
+
+with open('bc_islands.shpz', 'wb') as file:
+    file.write(feature_file)
+```
 
 ## Testing
 
@@ -39,7 +115,7 @@ tests manually / without tox.
 
 ## History
 
-TODO: Write history
+Recent changes can be viewed in the [CHANGELOG.md] file.
 
 ## Credits
 
@@ -53,5 +129,9 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE] file
 [Geomark Web Service]: https://www2.gov.bc.ca/gov/content/data/geographic-data-services/location-services/geomark-webservice
 [tox]: https://tox.readthedocs.io/en/latest/
 
+[supported coordinate systems]: https://apps.gov.bc.ca/pub/geomark/docs/coordinateSystems.html
+[supported file formats]: https://apps.gov.bc.ca/pub/geomark/docs/fileFormats.html
+
 [tox.ini]: tox.ini
+[CHANGELOG.md]: CHANGELOG.md
 [LICENSE]: LICENSE
