@@ -1,4 +1,6 @@
 # Python Geomark
+[![Build Status](https://travis-ci.org/greg-and-adam/python-geomark.svg?branch=master)](https://travis-ci.org/greg-and-adam/python-geomark)
+
 
 A small python library that provides implementations of the BC Governments [Geomark Web Service]
 
