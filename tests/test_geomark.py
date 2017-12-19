@@ -28,10 +28,10 @@ def test_point(geomarkId):
     assert gm.point()
 
 
-# def test_copy(geomarkId):
-#     gm = Geomark(geomarkId=geomarkId)
-#     assert gm.copy()
+def test_copy(geomarkId):
+    gm = Geomark(geomarkId=geomarkId)
+    assert gm.copy()
 
 
-# def test_create(geomarkId):
-#     assert Geomark.create()
+def test_create(kmlFile):
+    assert Geomark.create(format='kml', body=kmlFile)
