@@ -86,6 +86,10 @@ class Geomark:
     def copy(self, **kwargs):
         """
         This is almost the same as create but provides the geomarkUrl kwarg and a different post url.
+        TIP: If you do a straight copy without altering any of the parameters the geomark
+        server will notice that the geometry is identical and instead of giving you back a new Geomark
+        instance you will simply be given back the original. The workaround is to specify a tiny buffer
+        on the geometry using the bufferMeters kwarg.
         :param kwargs:
         :return:
         """
