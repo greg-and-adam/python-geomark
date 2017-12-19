@@ -1,8 +1,9 @@
+import os
 import pytest
 from geomark import config
 
-
 _geomark_ids = ['gm-abcdefghijklmnopqrstuvwxyz0000bc', 'gm-abcdefghijklmnopqrstuv0bcislands']
+_kml_files = ['point.kml', 'line.kml',  'polygon.kml']
 
 
 @pytest.fixture(scope='module',
@@ -30,3 +31,12 @@ def geomarkHttpsUrl(request):
         geomarkId=request.param
     )
     yield gm_url
+
+
+@pytest.fixture(scope='module',
+                params=_kml_files)
+def kmlFile(request):
+    filename = request.module.__file__
+    test_dir, _ = os.path.splitext(filename)
+    with open(os.path.join(test_dir, request.param), 'r') as kml:
+        yield kml.read()
