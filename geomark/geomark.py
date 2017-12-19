@@ -96,10 +96,6 @@ class Geomark:
         kwargs.update({'geomarkUrl': self.geomarkUrl})
         params = self._validate_post_kwargs(**kwargs)
         r = requests.post(url, params=params)
-
-        # Why is r.url pointing to the source Geomark?!
-        print (url)
-        print (r.url)
         return Geomark._handle_post(r)
 
     @staticmethod
