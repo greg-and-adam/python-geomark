@@ -17,6 +17,7 @@ LOGGER.addHandler(_ch)
 
 # These will probably never change
 # If, for some reason they ever do, note the names of the keywords, as they are specifically referred to by name.
+PROTOCOL = 'https'
 GEOMARK_BASE_URL = '{protocol}://apps.gov.bc.ca/pub/geomark'
 GEOMARK_ID_BASE_URL = GEOMARK_BASE_URL + '/geomarks/{geomarkId}'
 GEOMARK_GROUP_BASE_URL = GEOMARK_BASE_URL + '/geomarkGroups/{geomarkGroupId}'

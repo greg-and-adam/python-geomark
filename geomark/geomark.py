@@ -1,12 +1,17 @@
+import os
 import requests
+# from six.moves.urllib.parse import urlparse
+
 from . import config as _config
+
+_base_url = "{protocol}://apps.gov.bc.ca/pub/geomark"
+_gm_id_base = _base_url + '/geomarks/{geomarkId}'
 
 
 class Geomark:
 
-    def __init__(self, geomarkId=None, geomarkUrl=None, protocol='https', config=_config):
+    def __init__(self, geomarkId=None, geomarkUrl=None, config=_config):
         self.config = config
-        self.protocol = protocol
 
         self.logger = self.config.LOGGER
 
@@ -15,13 +20,12 @@ class Geomark:
 
         if geomarkId:
             self.geomarkUrl = self.config.GEOMARK_ID_BASE_URL.format(
-                protocol=self.protocol,
+                protocol=config.PROTOCOL,
                 geomarkId=geomarkId,
             )
             self.geomarkId = geomarkId
         else:
-            self.geomarkId = self._parse_geomark_url()
-            self.geomarkUrl = geomarkUrl
+            self.geomarkId, self.geomarkUrl, self.config.PROTOCOL = self._parse_geomark_url(geomarkUrl)
 
         self.logger.info('Initiated Geomark object with the following parameters: '
                          'geomarkId={geomarkId}; '
@@ -31,55 +35,139 @@ class Geomark:
 
             geomarkId=geomarkId,
             geomarkUrl=geomarkUrl,
-            protocol=protocol,
-            custom_config='YES' if config is _config else 'NO'
-        ))
+            protocol=config.PROTOCOL,
+            custom_config='YES' if config is _config else 'NO')
+        )
 
     def _parse_geomark_url(self, url):
-        raise NotImplementedError("_parse_geomark_url() method has not yet been implemented")
-        # return url
+        """
+        Parse the geomarkUrl for GeomarkId, protocol, and strip off the format specifier if one is present
+        :param url:
+        :return: GeomarkId, GeomarkUrl (no format), PROTOCOL
+        """
+        parsed = requests.compat.urlparse(url)
+        tail = parsed.path.split('/')[-1]
+        gmid, format = os.path.splitext(tail)
+        if format:
+            url = url.replace(format, '')
 
-    def _handle_request(self, request):
-        if request.ok:
-            return request.content
-        else:
-            request.raise_for_status()
+        return gmid, url, parsed.scheme
 
     def boundingBox(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '/boundingBox.{fileFormatExtension}'.format(
             fileFormatExtension=fileFormatExtension,
         )
-        return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
+        return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
     def feature(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '/feature.{fileFormatExtension}'.format(
             fileFormatExtension=fileFormatExtension,
         )
-        return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
+        return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
     def info(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '.{fileFormatExtension}?'.format(
             fileFormatExtension=fileFormatExtension,
         )
-        return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
+        return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
     def parts(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '/parts.{fileFormatExtension}'.format(
             fileFormatExtension=fileFormatExtension,
         )
-        return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
+        return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
     def point(self, fileFormatExtension='json', srid=None):
         url = self.geomarkUrl + '/point.{fileFormatExtension}'.format(
             fileFormatExtension=fileFormatExtension,
         )
-        return self._handle_request(requests.get(url, params={'srid': srid} if srid else None))
+        return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
     def copy(self, **kwargs):
-        copy_url = self.config.GEOMARK_BASE_URL + '/geomarks/copy'
-        raise NotImplementedError("copy is not implemented")
+        """
+        This is almost the same as create but provides the geomarkUrl kwarg and a different post url.
+        :param kwargs:
+        :return:
+        """
+        # Todo: allow sourcing from multiple geomarks, ie geomark_url as a list.
+        # Todo: put allow overlap into formData, NOT as a query param
 
-    @classmethod
-    def create(cls, config=_config, **kwargs):
-        create_url = config.GEOMARK_BASE_URL + '/geomarks/new'
-        raise NotImplementedError("create is not implemented")
+        url = self.config.GEOMARK_BASE_URL.format(protocol=self.config.PROTOCOL) + '/geomarks/copy'
+        kwargs.update({'geomarkUrl': self.geomarkUrl})
+        params = self._validate_post_kwargs(**kwargs)
+        r = requests.post(url, params=params)
+
+        # Why is r.url pointing to the source Geomark?!
+        print (url)
+        print (r.url)
+        return Geomark._handle_post(r)
+
+    @staticmethod
+    def create(
+            format=None,
+            srid=4326,
+            resultFormat='geojson',
+            multiple=False,
+            allowOverlap=False,
+            # callback              ---- Not supported
+            # redirectUrl           ---- Not supported
+            # failureRedirectUrl    ---- Not supported
+            bufferMetres=None,
+            bufferJoin=None,
+            bufferCap=None,
+            bufferMitreLimit=None,
+            bufferSegments=None,
+            body=None,
+            extra_kwargs={}):
+        """
+        Create a Geomark layer
+        :param format:
+        :param srid:
+        :param resultFormat:
+        :param multiple:
+        :param allowOverlap:
+        :param bufferMetres:
+        :param bufferJoin:
+        :param bufferCap:
+        :param bufferMitreLimit:
+        :param bufferSegments:
+        :param body:
+        :param extra_kwargs: put the overridden config object here, key: "config"
+        :return:
+        """
+        import inspect
+        kwargs = inspect.getargvalues(inspect.currentframe()).locals  # collect the method's named args
+        form_data = Geomark._validate_post_kwargs(**kwargs)
+
+        config = extra_kwargs.get("config", _config)
+        url = config.GEOMARK_BASE_URL.format(protocol=config.PROTOCOL) + '/geomarks/new'
+
+        return Geomark._handle_post(requests.post(url, data=form_data))
+
+    @staticmethod
+    def _handle_get(response):
+        if response.ok:
+            return response.content
+        else:
+            response.raise_for_status()
+
+    @staticmethod
+    def _handle_post(response):
+        if response.ok:
+            url = response.url
+            response.close()
+            return Geomark(geomarkUrl=url)
+        else:
+            response.raise_for_status()
+
+    @staticmethod
+    def _validate_post_kwargs(**kwargs):
+        """
+        Used by both create() and copy()
+        Doesn't do anything right now.
+        We don't need to pull out Nones because requests will do that for us.
+        :param kwargs:
+        :return:
+        """
+        # TODO Actually validate post kwargs.
+        return kwargs
