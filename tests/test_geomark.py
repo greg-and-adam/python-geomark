@@ -33,5 +33,5 @@ def test_copy(geomarkId):
     assert gm.copy()
 
 
-def test_create(kmlFile):
-    assert Geomark.create(format='kml', body=kmlFile)
+def test_create(geoFile):
+    assert Geomark.create(format=geoFile['format'], body=geoFile['data'])
