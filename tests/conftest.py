@@ -13,15 +13,18 @@ _geo_files = [
 ]
 
 
-@pytest.fixture(scope='module',
-                params=_geomark_ids)
+@pytest.fixture(scope='module', params=_geomark_ids)
 def geomarkId(request):
     gm_id = request.param
     yield gm_id
 
 
-@pytest.fixture(scope='module',
-                params=_geomark_ids)
+@pytest.fixture(scope='module')
+def geomarkIds(request):
+    yield _geomark_ids
+
+
+@pytest.fixture(scope='module', params=_geomark_ids)
 def geomarkUrl(request):
     gm_url = config.GEOMARK_ID_BASE_URL.format(
         protocol='http',
@@ -30,8 +33,7 @@ def geomarkUrl(request):
     yield gm_url
 
 
-@pytest.fixture(scope='module',
-                params=_geomark_ids)
+@pytest.fixture(scope='module', params=_geomark_ids)
 def geomarkHttpsUrl(request):
     gm_url = config.GEOMARK_ID_BASE_URL.format(
         protocol='https',
@@ -40,10 +42,9 @@ def geomarkHttpsUrl(request):
     yield gm_url
 
 
-@pytest.fixture(scope='module',
-                params=_geo_files)
+@pytest.fixture(scope='module', params=_geo_files)
 def geoFile(request):
     filename = request.module.__file__
     test_dir, _ = os.path.splitext(filename)
     with open(os.path.join(test_dir, request.param['file']), 'r') as f:
-        yield {'format':request.param['format'], 'data': f.read()}
+        yield {'format': request.param['format'], 'data': f.read()}
