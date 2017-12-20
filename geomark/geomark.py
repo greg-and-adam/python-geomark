@@ -83,30 +83,54 @@ class Geomark:
         )
         return self._handle_get(requests.get(url, params={'srid': srid} if srid else None))
 
-    def copy(self, **kwargs):
+    def copy(self,
+             geomarkUrl=None,
+             resultFormat='json',
+             allowOverlap=False,
+             # callback              ---- Not supported
+             # redirectUrl           ---- Not supported
+             # failureRedirectUrl    ---- Not supported
+             bufferMetres=None,
+             bufferJoin=None,
+             bufferCap=None,
+             bufferMitreLimit=None,
+             bufferSegments=None):
         """
-        This is almost the same as create but provides the geomarkUrl kwarg and a different post url.
         TIP: If you do a straight copy without altering any of the parameters the geomark
         server will notice that the geometry is identical and instead of giving you back a new Geomark
-        instance you will simply be given back the original. The workaround is to specify a tiny buffer
+        instance you will simply be given back the original. An alternative would be to specify a tiny buffer
         on the geometry using the bufferMeters kwarg.
-        :param kwargs:
+        :param geomarkUrl: can be geomarkId or the complete geomarkUrl. Can be a python list of strings or a single string.
+        :param resultFormat:
+        :param allowOverlap:
+        :param bufferMetres:
+        :param bufferJoin:
+        :param bufferCap:
+        :param bufferMitreLimit:
+        :param bufferSegments:
         :return:
         """
-        # Todo: allow sourcing from multiple geomarks, ie geomark_url as a list.
-        # Todo: put allow overlap into formData, NOT as a query param
+        import inspect
+        query = inspect.getargvalues(inspect.currentframe()).locals  # collect the method's named args
 
         url = self.config.GEOMARK_BASE_URL.format(protocol=self.config.PROTOCOL) + '/geomarks/copy'
-        kwargs.update({'geomarkUrl': self.geomarkUrl})
-        params = self._validate_post_kwargs(**kwargs)
-        r = requests.post(url, params=params)
-        return Geomark._handle_post(r)
+
+        # use the instance geomarkUrl if the kwarg isn't present:
+        if not geomarkUrl:
+            query.update({'geomarkUrl': self.geomarkUrl})
+
+        del query['allowOverlap']  # allowOverlap should not go in the query.
+        form_data = {'allowOverlap': allowOverlap}
+
+        params = self._validate_post_kwargs(**query)
+        r = requests.post(url, data=form_data, params=params)
+        return Geomark._handle_post(r, config=self.config)
 
     @staticmethod
     def create(
             format=None,
             srid=4326,
-            resultFormat='geojson',
+            resultFormat='json',
             multiple=False,
             allowOverlap=False,
             # callback              ---- Not supported
@@ -142,22 +166,26 @@ class Geomark:
         config = extra_kwargs.get("config", _config)
         url = config.GEOMARK_BASE_URL.format(protocol=config.PROTOCOL) + '/geomarks/new'
 
-        return Geomark._handle_post(requests.post(url, data=form_data))
+        return Geomark._handle_post(requests.post(url, data=form_data), config=config)
 
     @staticmethod
-    def _handle_get(response):
+    def _handle_get(response, **kwargs):
+        config = kwargs.get("config", _config)
         if response.ok:
             return response.content
         else:
+            config.LOGGER.error("Server responded with: " + response.text)
             response.raise_for_status()
 
     @staticmethod
-    def _handle_post(response):
+    def _handle_post(response, **kwargs):
+        config = kwargs.get("config", _config)
         if response.ok:
             url = response.url
             response.close()
             return Geomark(geomarkUrl=url)
         else:
+            config.LOGGER.error("Server responded with: " + response.text)
             response.raise_for_status()
 
     @staticmethod
