@@ -110,8 +110,18 @@ class Geomark:
         :param bufferSegments:
         :return:
         """
-        import inspect
-        query = inspect.getargvalues(inspect.currentframe()).locals  # collect the method's named args
+
+        # collect the method's named args -- there has got to be a better way. Going the inspect route causes problems with 2.7.
+        query = {
+            'geomarkUrl': geomarkUrl,
+            'resultFormat': resultFormat,
+            'allowOverlap': allowOverlap,
+            'bufferMetres': bufferMetres,
+            'bufferJoin': bufferJoin,
+            'bufferCap': bufferCap,
+            'bufferMitreLimit': bufferMitreLimit,
+            'bufferSegments': bufferSegments
+        }
 
         url = self.config.GEOMARK_BASE_URL.format(protocol=self.config.PROTOCOL) + '/geomarks/copy'
 
@@ -159,8 +169,20 @@ class Geomark:
         :param extra_kwargs: put the overridden config object here, key: "config"
         :return:
         """
-        import inspect
-        kwargs = inspect.getargvalues(inspect.currentframe()).locals  # collect the method's named args
+        # collect the method's named args -- there has got to be a better way. Going the inspect route causes problems with 2.7.
+        kwargs = {
+            'format': format,
+            'srid': srid,
+            'resultFormat': resultFormat,
+            'multiple': multiple,
+            'allowOverlap': allowOverlap,
+            'bufferMetres': bufferMetres,
+            'bufferJoin': bufferJoin,
+            'bufferCap': bufferCap,
+            'bufferMitreLimit': bufferMitreLimit,
+            'bufferSegments': bufferSegments,
+            'body': body
+        }
         form_data = Geomark._validate_post_kwargs(**kwargs)
 
         config = extra_kwargs.get("config", _config)
