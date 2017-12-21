@@ -2,6 +2,7 @@ import os
 import pytest
 from geomark import config
 
+
 _geomark_ids = ['gm-abcdefghijklmnopqrstuvwxyz0000bc', 'gm-abcdefghijklmnopqrstuv0bcislands']
 
 # The expected geometries for each test file of the matching geom_type
@@ -29,7 +30,6 @@ _geo_files = [
     {'format': 'geojson', 'file': 'line.geojson', 'expected_geom': _geo_features['linestring']},
     {'format': 'geojson', 'file': 'polygon.geojson', 'expected_geom': _geo_features['polygon']}
 ]
-
 
 
 @pytest.fixture(scope='module', params=_geomark_ids)
