@@ -3,6 +3,10 @@ import json
 from geomark.geomark import Geomark
 
 
+def test_create(geoFile):
+    assert Geomark.create(format=geoFile['format'], body=geoFile['data'])
+
+
 def test_bbox(geomarkId):
     gm = Geomark(geomarkId=geomarkId)
     assert gm.boundingBox()
@@ -36,7 +40,3 @@ def test_copy(geomarkId):
 def test_copy_multiple(geomarkIds):
     gm1 = Geomark(geomarkId=geomarkIds[0])
     assert gm1.copy(geomarkUrl=[geomarkIds[0], geomarkIds[1]], allowOverlap=True, bufferMetres=0.1)
-
-
-def test_create(geoFile):
-    assert Geomark.create(format=geoFile['format'], body=geoFile['data'])
