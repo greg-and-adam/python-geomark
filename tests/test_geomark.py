@@ -3,40 +3,53 @@ import json
 from geomark.geomark import Geomark
 
 
-def test_create(geoFile):
-    assert Geomark.create(format=geoFile['format'], body=geoFile['data'])
+@pytest.mark.dependency()
+def test_create(geo_file):
+    assert Geomark.create(format=geo_file['format'], body=geo_file['data'])
 
 
-def test_bbox(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
-    assert gm.boundingBox()
+@pytest.mark.dependency(depends=["test_create"])
+def test_create_other_formats(geo_files):
+    assert Geomark.create(format=geo_files['format'], body=geo_files['data'])
 
 
-def test_feature(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
+@pytest.mark.dependency(depends=["test_create"])
+def test_bbox(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
+    assert gm.boundingBox() is not None
+
+
+@pytest.mark.dependency(depends=["test_create"])
+def test_feature(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
     assert gm.feature()
 
 
-def test_info(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
+@pytest.mark.dependency(depends=["test_create"])
+def test_info(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
     assert gm.info()
 
 
-def test_parts(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
+@pytest.mark.dependency(depends=["test_create"])
+def test_parts(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
     assert gm.boundingBox()
 
 
-def test_point(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
+@pytest.mark.dependency(depends=["test_create"])
+def test_point(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
     assert gm.point()
 
 
-def test_copy(geomarkId):
-    gm = Geomark(geomarkId=geomarkId)
+@pytest.mark.dependency(depends=["test_create"])
+def test_copy(geomark_id):
+    gm = Geomark(geomarkId=geomark_id)
     assert gm.copy()
 
 
-def test_copy_multiple(geomarkIds):
-    gm1 = Geomark(geomarkId=geomarkIds[0])
-    assert gm1.copy(geomarkUrl=[geomarkIds[0], geomarkIds[1]], allowOverlap=True, bufferMetres=0.1)
+@pytest.mark.dependency(depends=["test_create"])
+def test_copy_multiple(geomark_ids):
+    gm1 = Geomark(geomarkId=geomark_ids[0])
+    assert gm1.copy(geomarkUrl=[geomark_ids[0], geomark_ids[1]], allowOverlap=True, bufferMetres=0.1)
