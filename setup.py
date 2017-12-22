@@ -30,15 +30,17 @@ setup(
     license='BSD2',
     description='Tools for manipulating Geomark datasets',
     long_description=README,
-    url='https://github.com/greg-and-adam/',
+    url='https://github.com/pauperpythonistas/python-geomark/',
+    # download_url='https://github.com/pauperpythonistas/python-geomark/archive/0.1.0.tar.gz',
     author='Adam Valair, Greg Sebastian',
     author_email='adam@bitspatial.com, gregseb@protonmail.com',
     install_requires=get_install_requires(),
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
-        'Intended Audience :: Practitioners',
-        'License :: OSI Approved :: BSD2',
+        'Intended Audience :: End Users/Desktop',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
@@ -48,7 +50,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: Utilities',
+        'Topic :: Scientific/Engineering :: GIS'
     ],
     test_suite="tests"
 )
