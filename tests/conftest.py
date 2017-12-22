@@ -37,8 +37,7 @@ def geomark_https_url(request):
 @pytest.fixture(scope='module', params=data.geo_files)
 def geo_file(request):
     filename = request.module.__file__
-    test_dir, _ = os.path.splitext(filename)
-    with open(os.path.join(test_dir, request.param['file']), 'r') as f:
+    with open(os.path.join(os.path.dirname(filename), "files/{}".format(request.param['file'])), 'r') as f:
         yield {
             'format': request.param['format'],
             'data': f.read(),
