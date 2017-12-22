@@ -31,7 +31,7 @@ setup(
     description='Tools for manipulating Geomark datasets',
     long_description=README,
     url='https://github.com/pauperpythonistas/python-geomark/',
-    # download_url='https://github.com/pauperpythonistas/python-geomark/archive/0.1.0.tar.gz',
+    download_url='https://github.com/pauperpythonistas/python-geomark/archive/0.1.0.tar.gz',
     author='Adam Valair, Greg Sebastian',
     author_email='adam@bitspatial.com, gregseb@protonmail.com',
     install_requires=get_install_requires(),
