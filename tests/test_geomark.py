@@ -34,39 +34,33 @@ def test_create(geo_file):
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_bbox(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.boundingBox() is not None
+def test_bbox(geomark_object):
+    assert geomark_object.boundingBox() is not None
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_feature(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.feature()
+def test_feature(geomark_object):
+    assert geomark_object.feature()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_info(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.info()
+def test_info(geomark_object):
+    assert geomark_object.info()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_parts(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.boundingBox()
+def test_parts(geomark_object):
+    assert geomark_object.parts()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_point(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.point()
+def test_point(geomark_object):
+    assert geomark_object.point()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
-def test_copy(geomark_id):
-    gm = Geomark(geomarkId=geomark_id)
-    assert gm.copy()
+def test_copy(geomark_object):
+    assert geomark_object.copy()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
