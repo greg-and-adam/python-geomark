@@ -7,6 +7,13 @@ from . import data as _data
 
 
 def strip_variable_properties(data, method='feature'):
+    """ When a Geomark object is created by Geomark BC, it comes with some variable data such as a unique ID and URL,
+    as well as the CreateDate and Expiry date.  We don't need to compare these.
+
+    :param data: The data returned by the given Geomark method
+    :param method: The method used to obtain data
+    :return: a copy of the data object with variable properties removed
+    """
     if method in ['feature']:
         del data['properties']['id']
         del data['properties']['url']
