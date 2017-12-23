@@ -11,19 +11,33 @@ def strip_variable_properties(data, method='feature'):
     """ When a Geomark object is created by Geomark BC, it comes with some variable data such as a unique ID and URL,
     as well as the CreateDate and Expiry date.  We don't need to compare these.
 
+    Presumably the Geomark folks won't change the properties they pass back without alerting their subscribers or
+    making such a change a part of a new release, as such there should be ample warning.  If this becomes a problem
+    in the future we can discuss simply striping the properties objects since we mostly care about accurate geometries.
+
     :param data: The data returned by the given Geomark method
     :param method: The method used to obtain data
     :return: a copy of the data object with variable properties removed
     """
-    if method in ['feature']:
+    if method == 'feature':
         del data['properties']['id']
         del data['properties']['url']
         del data['properties']['createDate']
         del data['properties']['expiryDate']
 
-    elif method in ['boundingBox']:
+    if method == 'boundingBox':
         # These methods return empty properties except for id and url, which are variable.
         data['properties'] = dict()
+
+    if method == 'info':
+        del data['id']
+        del data['url']
+        del data['createDate']
+        del data['expiryDate']
+        del data['validationError']
+        del data['googleMapsUrl']
+        del data['googleEarthUrl']
+        del data['resourceLinks']
 
     return data
 
@@ -57,16 +71,25 @@ def test_bbox(geomark_object):
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_feature(geomark_object):
-    expected = dict(geomark_object['expected_geom'])
+    # Perhaps the use of the Geomark.feature() method makes this sort of double as a test_feature test...
+    expected = dict(geomark_object['expected_geom'])  # variable properties have already been removed.
+    geojson = strip_variable_properties(json.loads(geomark_object['gm'].feature('geojson')))
 
-    assert geomark_object['gm'].feature()
+    assert expected == geojson
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_info(geomark_object):
-    expected = dict(geomark_object['expected_geom'])
+    geom_type = geomark_object['expected_geom']['geometry']['type']
+    expected = dict(geomark_object['expected_geom']['properties'])
+    info = strip_variable_properties(json.loads(geomark_object['gm'].info()), 'info')
 
-    assert geomark_object['gm'].info()
+    # TODO It seems that the "minimumClearance" property returns inconsistent results from the webservice
+    #      when fetching for a Point.  We should follow up with them.
+    if geom_type == 'Point':
+        info['minimumClearance'] = None
+
+    assert expected == info
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
