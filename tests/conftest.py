@@ -25,7 +25,7 @@ def geo_file(request):
 def geomark_object(request):
     filename = request.module.__file__
     with open(os.path.join(os.path.dirname(filename), "files/{}".format(request.param['file'])), 'r') as f:
-        yield Geomark.create(format=request.param['format'], body=f.read())
+        yield {'gm': Geomark.create(format=request.param['format'], body=f.read()), 'expected_geom': request.param['expected_geom']}
 
 
 @pytest.fixture(scope='function')

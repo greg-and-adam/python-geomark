@@ -1,5 +1,6 @@
 import pytest
 import json
+from shapely.geometry import shape, mapping, box
 
 from geomark.geomark import Geomark
 from geomark.config import LOGGER as logger
@@ -20,12 +21,16 @@ def strip_variable_properties(data, method='feature'):
         del data['properties']['createDate']
         del data['properties']['expiryDate']
 
-        return data
+    elif method in ['boundingBox']:
+        # These methods return empty properties except for id and url, which are variable.
+        data['properties'] = dict()
+
+    return data
 
 
 def test_create(geo_file):
     # Perhaps the use of the Geomark.feature() method makes this sort of double as a test_feature test...
-    expected = geo_file['expected_geom']  # variable properties have already been removed.
+    expected = dict(geo_file['expected_geom'])  # variable properties have already been removed.
 
     gm = Geomark.create(format=geo_file['format'], body=geo_file['data'])
     geojson = strip_variable_properties(json.loads(gm.feature('geojson')))
@@ -35,32 +40,52 @@ def test_create(geo_file):
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_bbox(geomark_object):
-    assert geomark_object.boundingBox() is not None
+    geom_type = geomark_object['expected_geom']['geometry']['type']
+
+    expected = strip_variable_properties(dict(geomark_object['expected_geom']), 'boundingBox')
+    expected_bbox = json.loads(json.dumps(mapping(box(*shape(expected['geometry']).bounds))))
+
+    # This funny shapely method of deriving a bounding box leaves out the closing point if getting the bounds of a Point
+    if geom_type == 'Point':
+        expected_bbox['coordinates'][0].append(expected_bbox['coordinates'][0][0])
+
+    expected['geometry'] = expected_bbox
+    bbox = strip_variable_properties(json.loads(geomark_object['gm'].boundingBox('geojson')), 'boundingBox')
+
+    assert expected == bbox
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_feature(geomark_object):
-    assert geomark_object.feature()
+    expected = dict(geomark_object['expected_geom'])
+
+    assert geomark_object['gm'].feature()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_info(geomark_object):
-    assert geomark_object.info()
+    expected = dict(geomark_object['expected_geom'])
+
+    assert geomark_object['gm'].info()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_parts(geomark_object):
-    assert geomark_object.parts()
+    expected = dict(geomark_object['expected_geom'])
+
+    assert geomark_object['gm'].parts()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_point(geomark_object):
-    assert geomark_object.point()
+    expected = dict(geomark_object['expected_geom'])
+
+    assert geomark_object['gm'].point()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_copy(geomark_object):
-    assert geomark_object.copy()
+    assert geomark_object['gm'].copy()
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
