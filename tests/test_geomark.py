@@ -19,7 +19,7 @@ def strip_variable_properties(data, method='feature'):
     :param method: The method used to obtain data
     :return: a copy of the data object with variable properties removed
     """
-    if method == 'feature':
+    if method in ['feature', 'parts']:
         del data['properties']['id']
         del data['properties']['url']
         del data['properties']['createDate']
@@ -38,6 +38,9 @@ def strip_variable_properties(data, method='feature'):
         del data['googleMapsUrl']
         del data['googleEarthUrl']
         del data['resourceLinks']
+
+    if method == 'parts':
+        del data['properties']['partIndex']
 
     return data
 
@@ -71,7 +74,6 @@ def test_bbox(geomark_object):
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_feature(geomark_object):
-    # Perhaps the use of the Geomark.feature() method makes this sort of double as a test_feature test...
     expected = dict(geomark_object['expected_geom'])  # variable properties have already been removed.
     geojson = strip_variable_properties(json.loads(geomark_object['gm'].feature('geojson')))
 
@@ -94,9 +96,12 @@ def test_info(geomark_object):
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_parts(geomark_object):
+    # Its fine to reuse the same expected geometry, because our test cases use single part geometries that will
+    # return the same geometry for parts() as feature() with a single additional property.
     expected = dict(geomark_object['expected_geom'])
+    geojson = strip_variable_properties(json.loads(geomark_object['gm'].parts('geojson')), 'parts')
 
-    assert geomark_object['gm'].parts()
+    assert expected == geojson
 
 
 @pytest.mark.dependency(depends=_data.depends_create)
