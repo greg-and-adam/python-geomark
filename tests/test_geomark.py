@@ -50,7 +50,7 @@ def test_create(geo_file):
     expected = dict(geo_file['expected_geom'])  # variable properties have already been removed.
 
     gm = Geomark.create(format=geo_file['format'], body=geo_file['data'])
-    geojson = strip_variable_properties(json.loads(gm.feature('geojson')))
+    geojson = strip_variable_properties(json.loads(gm.feature('geojson').decode('utf8')))
 
     assert expected == geojson
 
@@ -67,7 +67,7 @@ def test_bbox(geomark_object):
         expected_bbox['coordinates'][0].append(expected_bbox['coordinates'][0][0])
 
     expected['geometry'] = expected_bbox
-    bbox = strip_variable_properties(json.loads(geomark_object['gm'].boundingBox('geojson')), 'boundingBox')
+    bbox = strip_variable_properties(json.loads(geomark_object['gm'].boundingBox('geojson').decode('utf8')), 'boundingBox')
 
     assert expected == bbox
 
@@ -75,7 +75,7 @@ def test_bbox(geomark_object):
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_feature(geomark_object):
     expected = dict(geomark_object['expected_geom'])  # variable properties have already been removed.
-    geojson = strip_variable_properties(json.loads(geomark_object['gm'].feature('geojson')))
+    geojson = strip_variable_properties(json.loads(geomark_object['gm'].feature('geojson').decode('utf8')))
 
     assert expected == geojson
 
@@ -84,7 +84,7 @@ def test_feature(geomark_object):
 def test_info(geomark_object):
     geom_type = geomark_object['expected_geom']['geometry']['type']
     expected = dict(geomark_object['expected_geom']['properties'])
-    info = strip_variable_properties(json.loads(geomark_object['gm'].info()), 'info')
+    info = strip_variable_properties(json.loads(geomark_object['gm'].info().decode('utf8')), 'info')
 
     # TODO It seems that the "minimumClearance" property returns inconsistent results from the webservice
     #      when fetching for a Point.  We should follow up with them.
@@ -99,7 +99,7 @@ def test_parts(geomark_object):
     # Its fine to reuse the same expected geometry, because our test cases use single part geometries that will
     # return the same geometry for parts() as feature() with a single additional property.
     expected = dict(geomark_object['expected_geom'])
-    geojson = strip_variable_properties(json.loads(geomark_object['gm'].parts('geojson')), 'parts')
+    geojson = strip_variable_properties(json.loads(geomark_object['gm'].parts('geojson').decode('utf8')), 'parts')
 
     assert expected == geojson
 
