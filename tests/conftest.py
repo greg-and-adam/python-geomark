@@ -5,11 +5,6 @@ from geomark import config, Geomark
 from . import data
 
 
-@pytest.fixture(scope='module')
-def geomark_ids(request):
-    yield data.geomark_ids
-
-
 @pytest.fixture(scope='function', params=data.dependency_geo_files)
 def geo_file(request):
     filename = request.module.__file__
@@ -29,8 +24,3 @@ def geomark_object(request):
             'gm': Geomark.create(format=request.param['format'], body=f.read()),
             'geom_type': request.param['geom_type']
         }
-
-
-@pytest.fixture(scope='function')
-def geomark_id(geomark_object):
-    yield geomark_object.geomarkId
