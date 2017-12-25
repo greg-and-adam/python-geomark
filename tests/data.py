@@ -14,12 +14,12 @@ _geo_features = {
 
 # The shapes resulting from each {shape_type}.{format} should have the same shapes stored in different formats
 dependency_geo_files = [
-    pytest.mark.dependency(name="create_point_kml")({'format': 'kml', 'file': 'point.kml', 'expected_geom': _geo_features['point']}),
-    pytest.mark.dependency(name="create_line_kml")({'format': 'kml', 'file': 'line.kml', 'expected_geom': _geo_features['linestring']}),
-    pytest.mark.dependency(name="create_polygon_kml")({'format': 'kml', 'file': 'polygon.kml', 'expected_geom': _geo_features['polygon']}),
-    pytest.mark.dependency(name="create_point_geojson")({'format': 'geojson', 'file': 'point.geojson', 'expected_geom': _geo_features['point']}),
-    pytest.mark.dependency(name="create_line_geojson")({'format': 'geojson', 'file': 'line.geojson', 'expected_geom': _geo_features['linestring']}),
-    pytest.mark.dependency(name="create_polygon_geojson")({'format': 'geojson', 'file': 'polygon.geojson', 'expected_geom': _geo_features['polygon']})
+    pytest.mark.dependency(name="create_point_kml")({'format': 'kml', 'file': 'point.kml', 'geom_type': 'point'}),
+    pytest.mark.dependency(name="create_line_kml")({'format': 'kml', 'file': 'line.kml', 'geom_type': 'linestring'}),
+    pytest.mark.dependency(name="create_polygon_kml")({'format': 'kml', 'file': 'polygon.kml', 'geom_type': 'polygon'}),
+    pytest.mark.dependency(name="create_point_geojson")({'format': 'geojson', 'file': 'point.geojson', 'geom_type': 'point'}),
+    pytest.mark.dependency(name="create_line_geojson")({'format': 'geojson', 'file': 'line.geojson', 'geom_type': 'linestring'}),
+    pytest.mark.dependency(name="create_polygon_geojson")({'format': 'geojson', 'file': 'polygon.geojson', 'geom_type': 'polygon'})
 ]
 
 depends_create = [
@@ -32,10 +32,10 @@ depends_create = [
 ]
 
 geo_files = [
-    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'point.kml', 'expected_geom': _geo_features['point']}),
-    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'line.kml', 'expected_geom': _geo_features['linestring']}),
-    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'polygon.kml', 'expected_geom': _geo_features['polygon']}),
-    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'point.geojson', 'expected_geom': _geo_features['point']}),
-    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'line.geojson', 'expected_geom': _geo_features['linestring']}),
-    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'polygon.geojson', 'expected_geom': _geo_features['polygon']})
+    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'point.kml', 'geom_type': 'point'}),
+    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'line.kml', 'geom_type': 'linestring'}),
+    pytest.mark.dependency(depends=depends_create)({'format': 'kml', 'file': 'polygon.kml', 'geom_type': 'polygon'}),
+    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'point.geojson', 'geom_type': 'point'}),
+    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'line.geojson', 'geom_type': 'linestring'}),
+    pytest.mark.dependency(depends=depends_create)({'format': 'geojson', 'file': 'polygon.geojson', 'geom_type': 'polygon'})
 ]

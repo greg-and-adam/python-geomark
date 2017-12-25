@@ -1,1 +1,17 @@
-{"type": "Feature","crs": {"type": "name","properties": {"name": "urn:ogc:def:crs:EPSG::4326"}},"geometry": {"type": "Point","coordinates": [-123.37870723365188,49.96295634587292]},"properties": {"id": "gm-B40F361D2B3A437D8E2884CAC0AC1207","url": "http://apps.gov.bc.ca/pub/geomark/geomarks/gm-B40F361D2B3A437D8E2884CAC0AC1207"}}
+{
+  "type": "Feature",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -123.37870723365188,
+      49.96295634587292
+    ]
+  },
+  "properties": {}
+}

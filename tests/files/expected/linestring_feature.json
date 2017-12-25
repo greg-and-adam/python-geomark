@@ -1,0 +1,40 @@
+{
+  "type": "Feature",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [
+        -123.27582683416017,
+        50.03973275790413
+      ],
+      [
+        -123.53226005267769,
+        49.79711929326573
+      ]
+    ]
+  },
+  "properties": {
+    "geometryType": "LineString",
+    "numPolygons": 1,
+    "numParts": 1,
+    "minX": -123.53226005267769,
+    "minY": 49.79711929326573,
+    "maxX": -123.27582683416017,
+    "maxY": 50.03973275790413,
+    "centroidX": -123.40404344341893,
+    "centroidY": 49.918426025584935,
+    "numVertices": 2,
+    "length": 32669.339029919942,
+    "area": 0,
+    "isValid": true,
+    "isSimple": true,
+    "isRobust": true,
+    "minimumClearance": 32669.34
+  }
+}
