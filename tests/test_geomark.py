@@ -21,7 +21,7 @@ def strip_variable_properties(data, method='feature'):
 
     Presumably the Geomark folks won't change the properties they pass back without alerting their subscribers or
     making such a change a part of a new release, as such there should be ample warning.  If this becomes a problem
-    in the future we can discuss simply striping the properties objects since we mostly care about accurate geometries.
+    in the future we can discuss simply stripping the properties objects since we mostly care about accurate geometries.
 
     :param data: The data returned by the given Geomark method
     :param method: The method used to obtain data
