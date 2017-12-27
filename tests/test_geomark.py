@@ -1,7 +1,7 @@
 import os
 import pytest
 import json
-
+from shapely.geometry import shape
 from geomark.geomark import Geomark
 from geomark.config import LOGGER as logger
 from . import data as _data
@@ -117,10 +117,20 @@ def test_copy(geomark_object):
 
 @pytest.mark.dependency(depends=_data.depends_create)
 def test_copy_multiple(geomark_ids):
-    expected = get_expected_value('copy', 'multiple')
+    expected = shape(get_expected_value('copy', 'multiple')['geometry'])
 
     gm = Geomark(geomarkId=geomark_ids[0])
     gm2 = gm.copy(geomarkUrl=geomark_ids, allowOverlap=True, bufferMetres=0.1)
-    copy_multiple = strip_variable_properties(json.loads(gm2.feature('geojson').decode('utf8')), 'feature')
+    copy_multiple = shape(json.loads(gm2.feature('geojson').decode('utf8'))['geometry'])
 
-    assert expected == copy_multiple
+    # overlapping multi polygon should be invalid
+    assert not copy_multiple.is_valid
+
+    # put the geometry components in order by area
+    sort_expected_geom = sorted(expected.geoms, key=lambda geom: geom.area)
+    sort_copy_geoms = sorted(copy_multiple.geoms, key=lambda geom: geom.area)
+
+    # test geometry components for equality and validity
+    for i in range(0, len(sort_copy_geoms)):
+        assert sort_copy_geoms[i].is_valid
+        assert sort_expected_geom[i].equals(sort_copy_geoms[i])
