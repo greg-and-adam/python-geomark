@@ -139,8 +139,8 @@ Contributing
 History
 -------
 
-Recent changes can be viewed in the `CHANGELOG.rst
-<https://github.com/pauperpythonistas/python-geomark/blob/master/CHANGELOG.rst>`__
+Recent changes can be viewed in the `CHANGES.rst
+<https://github.com/pauperpythonistas/python-geomark/blob/master/CHANGES.rst>`__
 file.
 
 Credits
