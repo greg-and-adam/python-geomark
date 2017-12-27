@@ -24,3 +24,16 @@ def geomark_object(request):
             'gm': Geomark.create(format=request.param['format'], body=f.read()),
             'geom_type': request.param['geom_type']
         }
+
+
+@pytest.fixture(scope='function')
+def geomark_ids(request):
+    fixture = dict()
+    geo_files = [x.args[0] for x in filter(lambda y: y.args[0]['format'] == 'kml', data.geo_files)]
+
+    for file in geo_files:
+        with open(os.path.join(os.path.dirname(request.module.__file__), "files/{}".format(file['file'])), 'r') as f:
+            gm = Geomark.create(format=file['format'], body=f.read())
+            fixture[file['geom_type']] = gm.geomarkId
+
+    return fixture

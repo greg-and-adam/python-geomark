@@ -7,14 +7,6 @@ from geomark.config import LOGGER as logger
 from . import data as _data
 
 
-_created_geomark_ids = []
-
-
-@pytest.fixture(scope='function')
-def geomark_ids():
-    return _created_geomark_ids
-
-
 def strip_variable_properties(data, method='feature'):
     """ When a Geomark object is created by Geomark BC, it comes with some variable data such as a unique ID and URL,
     as well as the CreateDate and Expiry date.  We don't need to compare these.
@@ -63,9 +55,6 @@ def test_create(geo_file):
     expected = get_expected_value(geo_file['geom_type'], 'feature')  # variable properties have already been removed.
     gm = Geomark.create(format=geo_file['format'], body=geo_file['data'])
     geojson = strip_variable_properties(json.loads(gm.feature('geojson').decode('utf8')))
-
-    if geo_file['format'] == 'kml':
-        _created_geomark_ids.append(gm.geomarkId)
 
     assert expected == geojson
 
@@ -119,8 +108,8 @@ def test_copy(geomark_object):
 def test_copy_multiple(geomark_ids):
     expected = shape(get_expected_value('copy', 'multiple')['geometry'])
 
-    gm = Geomark(geomarkId=geomark_ids[0])
-    gm2 = gm.copy(geomarkUrl=geomark_ids, allowOverlap=True, bufferMetres=0.1)
+    gm = Geomark(geomarkId=geomark_ids['point'])
+    gm2 = gm.copy(geomarkUrl=[geomark_ids['point'], geomark_ids['linestring'], geomark_ids['polygon']], allowOverlap=True, bufferMetres=0.1)
     copy_multiple = shape(json.loads(gm2.feature('geojson').decode('utf8'))['geometry'])
 
     # overlapping multi polygon should be invalid
