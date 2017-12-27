@@ -1,50 +1,39 @@
 import os
 import pytest
-from geomark import config
 
-_geomark_ids = ['gm-abcdefghijklmnopqrstuvwxyz0000bc', 'gm-abcdefghijklmnopqrstuv0bcislands']
-_geo_files = [
-    {'format': 'kml', 'file': 'point.kml'},
-    {'format': 'kml', 'file': 'line.kml'},
-    {'format': 'kml', 'file': 'polygon.kml'},
-    {'format': 'geojson', 'file': 'point.geojson'},
-    {'format': 'geojson', 'file': 'line.geojson'},
-    {'format': 'geojson', 'file': 'polygon.geojson'}
-]
+from geomark import config, Geomark
+from . import data
 
 
-@pytest.fixture(scope='module', params=_geomark_ids)
-def geomarkId(request):
-    gm_id = request.param
-    yield gm_id
-
-
-@pytest.fixture(scope='module')
-def geomarkIds(request):
-    yield _geomark_ids
-
-
-@pytest.fixture(scope='module', params=_geomark_ids)
-def geomarkUrl(request):
-    gm_url = config.GEOMARK_ID_BASE_URL.format(
-        protocol='http',
-        geomarkId=request.param
-    )
-    yield gm_url
-
-
-@pytest.fixture(scope='module', params=_geomark_ids)
-def geomarkHttpsUrl(request):
-    gm_url = config.GEOMARK_ID_BASE_URL.format(
-        protocol='https',
-        geomarkId=request.param
-    )
-    yield gm_url
-
-
-@pytest.fixture(scope='module', params=_geo_files)
-def geoFile(request):
+@pytest.fixture(scope='function', params=data.dependency_geo_files)
+def geo_file(request):
     filename = request.module.__file__
-    test_dir, _ = os.path.splitext(filename)
-    with open(os.path.join(test_dir, request.param['file']), 'r') as f:
-        yield {'format': request.param['format'], 'data': f.read()}
+    with open(os.path.join(os.path.dirname(filename), "files/{}".format(request.param['file'])), 'r') as f:
+        yield {
+            'format': request.param['format'],
+            'data': f.read(),
+            'geom_type': request.param['geom_type']
+        }
+
+
+@pytest.fixture(scope='module', params=data.geo_files)
+def geomark_object(request):
+    filename = request.module.__file__
+    with open(os.path.join(os.path.dirname(filename), "files/{}".format(request.param['file'])), 'r') as f:
+        yield {
+            'gm': Geomark.create(format=request.param['format'], body=f.read()),
+            'geom_type': request.param['geom_type']
+        }
+
+
+@pytest.fixture(scope='function')
+def geomark_ids(request):
+    fixture = dict()
+    geo_files = [x.args[0] for x in filter(lambda y: y.args[0]['format'] == 'kml', data.geo_files)]
+
+    for file in geo_files:
+        with open(os.path.join(os.path.dirname(request.module.__file__), "files/{}".format(file['file'])), 'r') as f:
+            gm = Geomark.create(format=file['format'], body=f.read())
+            fixture[file['geom_type']] = gm.geomarkId
+
+    return fixture

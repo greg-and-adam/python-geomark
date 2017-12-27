@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -123.27582683416017,
+      50.03973275790413
+    ]
+  },
+  "properties": {}
+}

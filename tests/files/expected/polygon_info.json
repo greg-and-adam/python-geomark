@@ -1,0 +1,19 @@
+{
+  "geometryType":"Polygon",
+  "numPolygons":1,
+  "numParts":1,
+  "minX":-123.59828777134982,
+  "minY":49.74951791779005,
+  "maxX":-123.1284161225308,
+  "maxY":50.048945926824196,
+  "centroidX":-123.40793678392268,
+  "centroidY":49.914070995317516,
+  "numVertices":6,
+  "length":101540.46853039399,
+  "area":621899992,
+  "isValid":true,
+  "validationError":null,
+  "isSimple":true,
+  "isRobust":true,
+  "minimumClearance":8928.062
+}

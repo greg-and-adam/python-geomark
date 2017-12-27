@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -123.37870723365188,
+      49.96295634587292
+    ]
+  },
+  "properties": {
+    "geometryType": "Point",
+    "partIndex": 0,
+    "numPolygons": 1,
+    "numParts": 1,
+    "minX": -123.37870723365188,
+    "minY": 49.96295634587292,
+    "maxX": -123.37870723365188,
+    "maxY": 49.96295634587292,
+    "centroidX": -123.37870723365188,
+    "centroidY": 49.96295634587292,
+    "numVertices": 1,
+    "length": 0,
+    "area": 0,
+    "isValid": true,
+    "isSimple": true,
+    "isRobust": true,
+    "minimumClearance": null
+  }
+}
