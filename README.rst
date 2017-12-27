@@ -10,14 +10,21 @@ Service <https://www2.gov.bc.ca/gov/content/data/geographic-data-services/locati
 Installation
 ------------
 
-Option 1 - Clone this repository and install manually
+Option 1 - Install with pip
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Simply install latest version with pip:
+
+   ``pip install geomark``
+
+Option 2 - Clone this repository and install manually
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. We will do our best to keep the master branch of this repository
-   stable. However you could also checkout the tag corresponding to the
-   release you would like...
+   stable. However you could also checkout the tag corresponding to
+   whichever version x.y.z you would like...
 
-   ``git clone https://github.com/greg-and-adam/python-geomark.git``
+   ``git clone [-b x.y.z] https://github.com/greg-and-adam/python-geomark.git``
 
 2. the cd into the directory where this repository was cloned
 
@@ -30,9 +37,6 @@ Option 1 - Clone this repository and install manually
 4. **Or...** Follow step 1 above then install using pip
 
    ``pip install /path/to/cloned/python-geomark``
-
-TODO List more installation methods here as they become supported...
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Usage
 -----
@@ -135,7 +139,8 @@ Contributing
 History
 -------
 
-Recent changes can be viewed in the `CHANGELOG.md <CHANGELOG.md>`__
+Recent changes can be viewed in the `CHANGELOG.rst
+<https://github.com/pauperpythonistas/python-geomark/blob/master/CHANGELOG.rst>`__
 file.
 
 Credits
@@ -150,7 +155,7 @@ License
 -------
 
 This project is licensed under the BSD 3-Clause License - see the
-`LICENSE <LICENSE>`__ file for details
+`LICENSE <https://github.com/pauperpythonistas/python-geomark/blob/master/LICENSE>`__ file for details
 
 .. |Build Status| image:: https://travis-ci.org/pauperpythonistas/python-geomark.svg?branch=master
    :target: https://travis-ci.org/pauperpythonistas/python-geomark
