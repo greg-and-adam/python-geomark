@@ -21,7 +21,7 @@ branches:
     - master
 
 install:
-  - pip install coverage tox
+  - pip install coverage tox coveralls
 
 script:
   - tox
