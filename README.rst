@@ -24,7 +24,7 @@ Option 2 - Clone this repository and install manually
    stable. However you could also checkout the tag corresponding to
    whichever version x.y.z you would like...
 
-   ``git clone [-b x.y.z] https://github.com/greg-and-adam/python-geomark.git``
+   ``git clone [-b x.y.z] https://github.com/pauperpythonistas/python-geomark.git``
 
 2. the cd into the directory where this repository was cloned
 
