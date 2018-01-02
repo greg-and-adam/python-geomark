@@ -1,8 +1,13 @@
 Python Geomark
 ==============
 
+|PyPi Version|
+|License|
+|Supported Python Versions|
+
 |Build Status|
 |Coveralls Status|
+|Requires.io Status|
 
 A small python library that provides implementations of the BC
 Governments `Geomark Web
@@ -163,3 +168,16 @@ This project is licensed under the BSD 3-Clause License - see the
 
 .. |Coveralls Status| image:: https://coveralls.io/repos/github/pauperpythonistas/python-geomark/badge.svg?branch=master
    :target: https://coveralls.io/github/pauperpythonistas/python-geomark?branch=master
+
+.. |Requires.io Status| image:: https://requires.io/github/pauperpythonistas/python-geomark/requirements.svg?branch=master
+     :target: https://requires.io/github/pauperpythonistas/python-geomark/requirements/?branch=master
+     :alt: Requirements Status
+
+.. |PyPi Version| image:: https://img.shields.io/pypi/v/geomark.svg
+    :target: https://pypi.python.org/pypi/geomark
+
+.. |Supported Python Versions| image:: https://img.shields.io/pypi/pyversions/geomark.svg
+    :target: https://pypi.python.org/pypi/geomark
+
+.. |License| image:: https://img.shields.io/pypi/l/geomark.svg
+    :target: https://pypi.python.org/pypi/geomark
