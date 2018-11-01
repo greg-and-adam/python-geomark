@@ -10,7 +10,7 @@ Python Geomark
 |Requires.io Status|
 
 A small python library that provides implementations of the BC
-Governments `Geomark Web
+Government's `Geomark Web
 Service <https://www2.gov.bc.ca/gov/content/data/geographic-data-services/location-services/geomark-webservice>`__
 
 Installation
@@ -32,7 +32,7 @@ Option 2 - Clone this repository and install manually
 
    ``git clone [-b x.y.z] https://github.com/pauperpythonistas/python-geomark.git``
 
-2. the cd into the directory where this repository was cloned
+2. The cd into the directory where this repository was cloned
 
    ``cd /path/to/python-geomark``
 
@@ -64,10 +64,10 @@ We recommend using the Geomark ID.
 This library supports all of the basic read functions from the Geomark
 API.
 
-Reponse results are returned as a bytes string. It can be parsed using
+Response results are returned as a bytes string. It can be parsed using
 the appropriate library.
 
-The default format is 'json' which will return a json parsable byte
+The default format is 'json' which will return a JSON parsable byte
 string. When using the JSON format any geometries will be formatted as
 EWKT.
 
@@ -121,7 +121,7 @@ The recommended way to run the tests is by using
 using\ ``pip install tox``.
 
 You can use ``tox -l`` to list the available environments, and then e.g.
-use the following to run all tests with Python 3.6
+use the following to run all tests with Python 3.6.
 
 ::
 
@@ -145,7 +145,7 @@ Contributing
 History
 -------
 
-Recent changes can be viewed in the `CHANGES.rst
+Recent changes can be viewed in the `CHANGES.rst`
 <https://github.com/pauperpythonistas/python-geomark/blob/master/CHANGES.rst>`__
 file.
 
