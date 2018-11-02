@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 # from six.moves.urllib.parse import urlparse
 
@@ -203,9 +204,9 @@ class Geomark:
     def _handle_post(response, **kwargs):
         config = kwargs.get("config", _config)
         if response.ok:
-            url = response.url
+            content = json.loads(response.content.decode('utf-8'))
             response.close()
-            return Geomark(geomarkUrl=url)
+            return Geomark(geomarkId=content['id'])
         else:
             config.LOGGER.error("Server responded with: " + response.text)
             response.raise_for_status()
