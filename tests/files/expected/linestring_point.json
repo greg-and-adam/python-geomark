@@ -3,13 +3,13 @@
   "crs": {
     "type": "name",
     "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
+      "name": "urn:ogc:def:crs:OGC::CRS84"
     }
   },
   "geometry": {
     "type": "Point",
     "coordinates": [
-      -123.27582683416017,
+      -123.27582683416016,
       50.03973275790413
     ]
   },
